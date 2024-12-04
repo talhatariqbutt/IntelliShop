@@ -1,0 +1,96 @@
+# # Import necessary modules from Searching.ipynb
+# from fastapi import FastAPI, File, UploadFile, HTTPException
+# from PIL import Image
+# import io
+# # from utils import process_image  # Import process_image from Searching.ipynb
+# from Searching import process_image
+
+
+# app = FastAPI()
+
+# @app.get("/")
+# async def root():
+#     return {"message": "FastAPI is working!"}
+
+# @app.post("/uploadImage/")
+# async def upload_image(image: UploadFile = File(...)):
+#     try:
+#         # Read the image
+#         content = await image.read()
+#         image_pil = Image.open(io.BytesIO(content))
+
+#         # Process the image using the process_image function from Searching.ipynb
+#         results = process_image(image_pil)  # This will return FAISS results
+
+#         # Return the results to the frontend
+#         return {"results": results}
+#     except Exception as e:
+#         # Handle any errors that may occur
+#         raise HTTPException(status_code=500, detail=f"Error processing image: {str(e)}")
+
+# Import necessary modules from Searching.py
+import os
+from fastapi import FastAPI, File, UploadFile, HTTPException
+from PIL import Image
+import io
+# from utils import process_image  # Import process_image from Searching.py
+from Searching import process_image
+
+app = FastAPI()
+
+@app.get("/")
+async def root():
+    return {"message": "FastAPI is working!"}
+
+# @app.post("/uploadImage/")
+# async def upload_image(image: UploadFile = File(...)):
+#     try:
+#         # Read the image
+#         print("testing")
+#         content = await image.read()
+#         image_pil = Image.open(io.BytesIO(content))
+#         width, height = image_pil.size
+
+#         # Process the image using the process_image function from Searching.py
+#         results = process_image(image_pil)  # This will return FAISS results
+
+#         # Return the results to the frontend
+#         # return {"results": content}
+#         return {"message": "Image processed successfully", "width": width, "height": height, "results": results}
+#     except Exception as e:
+#         # Handle any errors that may occur
+#         raise HTTPException(status_code=500, detail=f"Error processing image: {str(e)}")
+# Define a directory to store uploaded images
+UPLOAD_DIRECTORY = "uploads/"
+
+@app.post("/uploadImage/")
+async def upload_image(image: UploadFile = File(...)):
+    try:
+        # Ensure the uploads directory exists
+        if not os.path.exists(UPLOAD_DIRECTORY):
+            os.makedirs(UPLOAD_DIRECTORY)
+
+        # Save the uploaded file to the uploads directory
+        file_location = os.path.join(UPLOAD_DIRECTORY, image.filename)
+        with open(file_location, "wb") as buffer:
+            buffer.write(await image.read())
+
+        # Open the saved image file
+        image_pil = Image.open(file_location)
+        width, height = image_pil.size
+
+        # Process the image using the process_image function from Searching.py
+        # Now we pass the file path instead of the image object
+        results = process_image(file_location)  # Assuming process_image accepts the file path
+
+        # Return the results to the frontend
+        return {
+            "message": "Image processed successfully",
+            "width": width,
+            "height": height,
+            "results": results,
+            "file_path": file_location  # Optional: return the file path as well
+        }
+    except Exception as e:
+        # Handle any errors that may occur
+        raise HTTPException(status_code=500, detail=f"Error processing image: {str(e)}")
