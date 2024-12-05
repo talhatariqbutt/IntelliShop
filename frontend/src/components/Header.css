@@ -1,0 +1,30 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 60px;
+    background-color: #e9e7d5;
+  }
+  
+  .header-content {
+    max-width: 50%;
+  }
+  
+  .header-content h1 {
+    font-size: 3rem;
+    color: #827a53;
+  }
+  
+  .header-content p {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    color: #a6a08c;
+  }
+  
+  .header-image img {
+    width: 400px;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  }
+  
