@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from PIL import Image
 from Searching import process_image
 from user import register_user, login_user, UserRegister, UserLogin
@@ -35,17 +36,18 @@ async def upload_image(image: UploadFile = File(...)):
         with open(file_location, "wb") as buffer:
             buffer.write(await image.read())
 
-        image_pil = Image.open(file_location)
-        width, height = image_pil.size
+        # image_pil = Image.open(file_location)
+        # width, height = image_pil.size
         results = process_image(file_location)
 
         return {
             "message": "Image processed successfully",
-            "width": width,
-            "height": height,
+            # "width": width,
+            # "height": height,
             "results": results,
             "file_path": file_location,
         }
+        return JSONResponse(content=response)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing image: {str(e)}")
 

@@ -54,17 +54,45 @@ def dinoFeatureExtractor(cropped_image):
     print("Features extracted successfully.")
     return image_features.numpy()
 
+
+# def query_faiss(image_features, k=10):
+#     """Query the FAISS index with the extracted image features to find similar images."""
+#     print("Querying FAISS index...")
+#     query_features = image_features.squeeze()
+#     distances, indices = index.search(np.expand_dims(query_features, axis=0), k)
+#     print("Query completed. Retrieving results from DataFrame...")
+#     images_data = []
+#     for i, (distance, idx) in enumerate(zip(distances[0], indices[0])):
+#         print(f"{i}: {df.iloc[idx]['Downloaded Image URL']} with distance {distance:.2f}")
+#         images_data.append({
+#             'image_url': df.iloc[idx]['Downloaded Image URL'],  # Use 'Downloaded Image URL' for images
+#             'product_url': df.iloc[idx]['Product Page URL'],   # Keep the 'Product Page URL' for linking
+#             'distance': float(distance)
+#         })
+#     return images_data
+
 def query_faiss(image_features, k=10):
     """Query the FAISS index with the extracted image features to find similar images."""
     print("Querying FAISS index...")
     query_features = image_features.squeeze()
     distances, indices = index.search(np.expand_dims(query_features, axis=0), k)
     print("Query completed. Retrieving results from DataFrame...")
-    images_data = []
+    products_data = []
     for i, (distance, idx) in enumerate(zip(distances[0], indices[0])):
         print(f"{i}: {df.iloc[idx]['Downloaded Image URL']} with distance {distance:.2f}")
-        images_data.append({'url': df.iloc[idx]['Downloaded Image URL'], 'distance': distance})
-    return images_data
+        products_data.append({
+            'image_url': df.iloc[idx]['Downloaded Image URL'],  # Image URL
+            'product_url': df.iloc[idx]['Product Page URL'],   # Product Page Link
+            'product_name': df.iloc[idx]['Product Name'],      # Product Name
+            'brand': df.iloc[idx]['Brand'],                    # Brand
+            'price': df.iloc[idx]['Price'],                    # Price
+            'distance': float(distance)                        # Similarity Distance
+        })
+        # print("Query FAISS Results:")
+        # for product in products_data:
+        #     print(product)
+    return products_data
+
 
 def display_image_grid(images_data, ncols=5):
     """Display a grid of images with distances from the FAISS query result."""
@@ -73,8 +101,8 @@ def display_image_grid(images_data, ncols=5):
     ax = ax.flatten()
     for i, img_data in enumerate(images_data):
         try:
-            print(f"Fetching image {i} from URL: {img_data['url']}")
-            response = requests.get(img_data['url'], stream=True, timeout=10)
+            print(f"Fetching image {i} from URL: {img_data['image_url']}")  # Use 'image_url' to fetch images
+            response = requests.get(img_data['image_url'], stream=True, timeout=10)
             response.raise_for_status()
             img = Image.open(io.BytesIO(response.content))
             ax[i].imshow(img)
@@ -94,23 +122,93 @@ def display_image_grid(images_data, ncols=5):
     plt.tight_layout()
     plt.show()
 
+
+# def process_image(image_path):
+#     """Load an image, perform object detection, extract features, query FAISS, and display results."""
+#     print("Performing object detection...")
+#     prediction_clothes = model_clothes.predict(image_path, confidence=40, overlap=30).json()
+
+#     image = cv2.imread(image_path)
+#     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+#     choice = 0
+#     detections = []
+#     # for i, item in enumerate(prediction_clothes['predictions']):
+#     #     x, y, w, h = item['x'], item['y'], item['width'], item['height']
+#     #     start_point = (int(x - w/2), int(y - h/2))
+#     #     detections.append({'bbox': (start_point[0], start_point[1], int(w), int(h)), 'class': item['class'], 'confidence': item['confidence']})
+#     #     print(f"{i}: Class: {item['class']}, Confidence: {item['confidence']:.2f}, Box: {start_point[0]}, {start_point[1]}, {w}, {h}")
+
+#     max_confidence = -1  # Initialize to a very low value
+#     max_index = -1  # Initialize index for the item with the highest confidence
+
+#     for i, item in enumerate(prediction_clothes['predictions']):
+#         x, y, w, h = item['x'], item['y'], item['width'], item['height']
+#         start_point = (int(x - w / 2), int(y - h / 2))
+#         detections.append({
+#             'bbox': (start_point[0], start_point[1], int(w), int(h)),
+#             'class': item['class'],
+#             'confidence': item['confidence']
+#         })
+    
+#     # Print the details of the current prediction
+#         print(f"{i}: Class: {item['class']}, Confidence: {item['confidence']:.2f}, Box: {start_point[0]}, {start_point[1]}, {w}, {h}")
+        
+#         # Update max confidence and max index if current item's confidence is higher
+#         if item['confidence'] > max_confidence:
+#             max_confidence = item['confidence']
+#             max_index = i  # Store the current index
+
+# # After the loop, max_index will hold the index of the item with the highest confidence
+#     print(f"Item with highest confidence: Index {max_index} with confidence {max_confidence:.2f}")
+
+
+#     # index = int(input("Enter the index of the detection to process: "))
+#     selected_detection = detections[max_index]
+#     x, y, w, h = selected_detection['bbox']
+
+#     # # Display the original image with the selected bounding box
+#     # plt.figure(figsize=(8, 8))
+#     # plt.imshow(image_rgb)
+#     # rect = patches.Rectangle((x, y), w, h, linewidth=2, edgecolor='r', facecolor='none')
+#     # plt.gca().add_patch(rect)
+#     # plt.title("Original Image with Selected Detection")
+#     # plt.axis('off')
+#     # plt.show()
+
+#     # # Display the cropped part of the image
+#     cropped_image = image_rgb[y:y+h, x:x+w]
+#     # plt.figure(figsize=(5, 5))
+#     # plt.imshow(cropped_image)
+#     # plt.title("Cropped Image")
+#     # plt.axis('off')
+#     # plt.show()
+
+#     image_features = dinoFeatureExtractor(cropped_image)
+#     results = query_faiss(image_features)
+#     display_image_grid(results)
+
+
+
+# # # Specify the path to your test image
+# # test_image_path = "../Test/Test5.jpg" # Replace with the path to your image file
+# # # Run the processing function
+# # process_image(test_image_path)
+
+
+# # ----------------------------------------------------
+
 def process_image(image_path):
-    """Load an image, perform object detection, extract features, query FAISS, and display results."""
+    """Load an image, perform object detection, extract features, query FAISS, and return results."""
     print("Performing object detection...")
     prediction_clothes = model_clothes.predict(image_path, confidence=40, overlap=30).json()
 
     image = cv2.imread(image_path)
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    choice = 0
-    detections = []
-    # for i, item in enumerate(prediction_clothes['predictions']):
-    #     x, y, w, h = item['x'], item['y'], item['width'], item['height']
-    #     start_point = (int(x - w/2), int(y - h/2))
-    #     detections.append({'bbox': (start_point[0], start_point[1], int(w), int(h)), 'class': item['class'], 'confidence': item['confidence']})
-    #     print(f"{i}: Class: {item['class']}, Confidence: {item['confidence']:.2f}, Box: {start_point[0]}, {start_point[1]}, {w}, {h}")
 
-    max_confidence = -1  # Initialize to a very low value
-    max_index = -1  # Initialize index for the item with the highest confidence
+    # Find the detection with the highest confidence
+    max_confidence = -1
+    max_index = -1
+    detections = []
 
     for i, item in enumerate(prediction_clothes['predictions']):
         x, y, w, h = item['x'], item['y'], item['width'], item['height']
@@ -120,53 +218,27 @@ def process_image(image_path):
             'class': item['class'],
             'confidence': item['confidence']
         })
-    
-    # Print the details of the current prediction
-        print(f"{i}: Class: {item['class']}, Confidence: {item['confidence']:.2f}, Box: {start_point[0]}, {start_point[1]}, {w}, {h}")
-        
-        # Update max confidence and max index if current item's confidence is higher
+
         if item['confidence'] > max_confidence:
             max_confidence = item['confidence']
-            max_index = i  # Store the current index
+            max_index = i
 
-# After the loop, max_index will hold the index of the item with the highest confidence
-    print(f"Item with highest confidence: Index {max_index} with confidence {max_confidence:.2f}")
+    if max_index == -1:
+        return {"message": "No detections found", "results": []}
 
-
-    # index = int(input("Enter the index of the detection to process: "))
+    # Select detection with the highest confidence
     selected_detection = detections[max_index]
     x, y, w, h = selected_detection['bbox']
-
-    # # Display the original image with the selected bounding box
-    # plt.figure(figsize=(8, 8))
-    # plt.imshow(image_rgb)
-    # rect = patches.Rectangle((x, y), w, h, linewidth=2, edgecolor='r', facecolor='none')
-    # plt.gca().add_patch(rect)
-    # plt.title("Original Image with Selected Detection")
-    # plt.axis('off')
-    # plt.show()
-
-    # # Display the cropped part of the image
     cropped_image = image_rgb[y:y+h, x:x+w]
-    # plt.figure(figsize=(5, 5))
-    # plt.imshow(cropped_image)
-    # plt.title("Cropped Image")
-    # plt.axis('off')
-    # plt.show()
 
+    # Extract features and query FAISS
     image_features = dinoFeatureExtractor(cropped_image)
     results = query_faiss(image_features)
-    display_image_grid(results)
 
+    # Return results to the calling function
+    # return results
+    return {"results": results, "message": "Processing complete"}
 
-
-# # Specify the path to your test image
-# test_image_path = "../Test/Test5.jpg" # Replace with the path to your image file
-# # Run the processing function
-# process_image(test_image_path)
-
-
-# ----------------------------------------------------
 
 
 

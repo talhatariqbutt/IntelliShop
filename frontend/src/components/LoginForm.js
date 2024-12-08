@@ -74,64 +74,6 @@ const LoginForm = ({ onClose, onLoginSuccess }) => {
     }
   };
   
-//   return (
-//     <div className="login-form-overlay">
-//       <div className="login-form-container">
-//         <div className="login-logo">IntelliShop</div>
-//         <h2>{isRegistering ? 'Create an account' : 'Login to your account'}</h2>
-//         <p>Enter your credentials to {isRegistering ? 'sign up' : 'login'} for this app</p>
-
-//         <input
-//           type="email"
-//           className="email-input"
-//           placeholder="email@domain.com"
-//           value={email}
-//           onChange={handleEmailChange}
-//         />
-//         <input
-//           type="password"
-//           className="password-input"
-//           placeholder="Password"
-//           value={password}
-//           onChange={handlePasswordChange}
-//         />
-
-//         {isRegistering ? (
-//           <button className="email-button" onClick={handleRegister}>
-//             Sign up with email
-//           </button>
-//         ) : (
-//           <button className="email-button" onClick={handleLogin}>
-//             Login with email
-//           </button>
-//         )}
-
-//         <div className="divider">
-//           <span>or continue with</span>
-//         </div>
-
-//         <button className="google-button">
-//           <i className="fab fa-google"></i> Continue with Google
-//         </button>
-
-//         <p className="terms-text">
-//           By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
-//         </p>
-
-//         <p className="toggle-text" onClick={() => setIsRegistering(!isRegistering)}>
-//           {isRegistering ? 'Already have an account? Login' : 'Don’t have an account? Sign up'}
-//         </p>
-
-//         <button className="close-button" onClick={onClose}>
-//           &times;
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default LoginForm;
-
 return (
   <div className="login-form-overlay">
     <div className="login-form-container">

@@ -1,4 +1,4 @@
-.upload-section {
+/* .upload-section {
     padding: 40px;
     text-align: center;
     background: rgba(255, 255, 255, 0.9);
@@ -92,4 +92,254 @@
     display: flex;
     gap: 10px;
   }
-  
+
+
+  .results-section {
+  margin-top: 20px;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+  gap: 15px;
+  padding: 10px;
+}
+
+.result-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.result-image {
+  width: 100%; 
+  max-width: 300px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.result-url {
+  font-size: 12px;
+  color: #555;
+  word-break: break-all;
+  margin-top: 10px;
+}
+
+.result-distance {
+  font-size: 14px;
+  color: #888;
+  margin-top: 5px;
+}
+
+.result-brand,
+.result-price {
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0;
+} */
+
+/* Overall Section Styling */
+.upload-section {
+  padding: 40px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  max-width: 600px;
+  margin: 40px auto;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+}
+
+/* Title Styling */
+.upload-section h2 {
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Upload Area */
+.upload-area {
+  border: 2px dashed #28a745;
+  border-radius: 8px;
+  padding: 40px;
+  background-color: #fff;
+  transition: border-color 0.3s, background-color 0.3s;
+  cursor: pointer;
+  min-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Active state for upload area */
+.upload-area.active {
+  border-color: #4caf50;
+  background-color: #e8f7e6;
+}
+
+/* Upload Content Layout */
+.upload-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Instructions Text */
+.upload-instructions {
+  font-size: 18px;
+  color: #555;
+  margin-top: 20px;
+}
+
+/* "Or" Separator */
+.upload-or {
+  margin: 10px 0;
+  color: #aaa;
+  font-size: 16px;
+  font-style: italic;
+}
+
+/* Hidden File Input */
+.file-input {
+  display: none;
+}
+
+/* Styling for Upload Button */
+.upload-button {
+  padding: 12px 30px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s ease;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin: 10px;
+  width: 100%;
+}
+
+.upload-button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+/* Cancel Button Styling */
+.cancel-button {
+  padding: 12px 30px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s ease;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin: 10px;
+  width: 100%;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+/* File Name Display */
+.file-name {
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Action Button Container */
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Results Section */
+.results-section {
+  margin-top: 40px;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Flexible grid layout */
+  gap: 20px;
+  padding: 10px;
+}
+
+.result-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.result-image {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.result-image:hover {
+  transform: scale(1.05);
+}
+
+.result-url {
+  font-size: 12px;
+  color: #555;
+  word-break: break-word;
+  margin-top: 10px;
+}
+
+.result-distance {
+  font-size: 14px;
+  color: #888;
+  margin-top: 5px;
+}
+
+.result-brand,
+.result-price {
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .upload-section {
+    padding: 20px;
+  }
+
+  .upload-button, .cancel-button {
+    font-size: 14px;
+    padding: 10px 25px;
+  }
+
+  .results-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+}
