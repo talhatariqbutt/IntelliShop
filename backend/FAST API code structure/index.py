@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from PIL import Image
@@ -6,6 +6,7 @@ from Searching import process_image
 from user import register_user, login_user, UserRegister, UserLogin
 from pydantic import BaseModel
 from image_gen import generate_image_from_prompt
+# from availability import check_sizes 
 import os
 
 app = FastAPI()
@@ -69,3 +70,14 @@ async def generate_image(request: PromptRequest):
         return {"image": generated_image_path}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating image: {str(e)}")
+
+# @app.get("/checkAvailability/")
+# async def check_availability(product_url: str = Query(..., description="URL of the product")):
+#     """
+#     Check the availability of product sizes for the given product URL.
+#     """
+#     try:
+#         sizes_info = check_sizes(product_url)
+#         return {"availability": sizes_info}
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
