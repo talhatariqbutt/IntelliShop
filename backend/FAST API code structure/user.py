@@ -45,6 +45,16 @@ def register_user(user: UserRegister):
     return {"message": "User registered successfully", "user_id": str(result.inserted_id)}
 
 # Function to login a user
+# def login_user(user: UserLogin):
+#     existing_user = users_collection.find_one({"email": user.email})
+#     if not existing_user:
+#         raise HTTPException(status_code=400, detail="Invalid email or password")
+
+#     if not verify_password(user.password, existing_user["password"]):
+#         raise HTTPException(status_code=400, detail="Invalid email or password")
+
+#     return {"message": "Login successful", "user_id": str(existing_user["_id"])}
+
 def login_user(user: UserLogin):
     existing_user = users_collection.find_one({"email": user.email})
     if not existing_user:
@@ -53,4 +63,8 @@ def login_user(user: UserLogin):
     if not verify_password(user.password, existing_user["password"]):
         raise HTTPException(status_code=400, detail="Invalid email or password")
 
-    return {"message": "Login successful", "user_id": str(existing_user["_id"])}
+    return {
+        "message": "Login successful",
+        "user_id": str(existing_user["_id"]),
+        "full_name": existing_user["full_name"],  # Include full_name in the response
+    }

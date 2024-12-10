@@ -55,161 +55,121 @@ const GeneratePage = () => {
 
 export default GeneratePage;
 
-// import React, { useState } from 'react';
-// import axios from 'axios';
-// import './Generate.css';
+// import React, { useState } from "react";
+// import "./Generate.css";
+// import axios from "axios";
 
 // const GeneratePage = () => {
-//     const [prompt, setPrompt] = useState('');
-//     const [generatedImage, setGeneratedImage] = useState('');
-//     const [error, setError] = useState('');
+//   const [prompt, setPrompt] = useState("");
+//   const [generatedImage, setGeneratedImage] = useState(null);
+//   const [searchResults, setSearchResults] = useState([]); // State for search results
 
-//     const handlePromptChange = (e) => {
-//         setPrompt(e.target.value);
-//     };
+//   const handleInputChange = (event) => {
+//     setPrompt(event.target.value);
+//   };
 
-//     const handleGenerateImage = async () => {
-//         setError('');
-//         try {
-//             const response = await axios.post('http://localhost:8000/generateImage/', { prompt });
-//             setGeneratedImage(response.data.image);
-//         } catch (err) {
-//             setError('Failed to generate image. Please try again.');
-//             console.error(err);
-//         }
-//     };
+//   const handleEnterClick = async () => {
+//     if (prompt.trim() === "") {
+//       alert("Please enter a prompt");
+//     } else {
+//       try {
+//         const response = await axios.post("http://127.0.0.1:8000/generateImage/", {
+//           prompt: prompt,
+//         });
+//         setGeneratedImage(response.data.image); // Assuming response.data.image is the base64 string
+//       } catch (error) {
+//         console.error("Error generating image:", error);
+//       }
+//     }
+//     setPrompt("");
+//   };
 
-//     const handleSaveImage = async () => {
-//         if (!generatedImage) {
-//             setError('No image to save.');
-//             return;
-//         }
-//         try {
-//             const response = await axios.post('http://localhost:8000/uploadImage/', {
-//                 image: generatedImage,
-//             });
-//             alert('Image saved successfully!');
-//         } catch (err) {
-//             setError('Failed to save image. Please try again.');
-//             console.error(err);
-//         }
-//     };
+//   const handleSearchClick = async () => {
+//     if (!generatedImage) {
+//       alert("No image generated to search");
+//       return;
+//     }
+  
+//     try {
+//       // Prepare base64 payload without prefix for the backend
+//       const base64Payload = generatedImage.split(",")[1];  // Remove the prefix
+//       console.log("Sending Base64 Image:", base64Payload); // Debugging log
+  
+//       const response = await axios.post("http://127.0.0.1:8000/uploadImage/", {
+//         base64_image: { image: base64Payload },
+//       });
+  
+//       if (response.data.results) {
+//         setSearchResults(response.data.results);
+//       } else {
+//         setSearchResults([]);
+//       }
+//     } catch (error) {
+//       console.error("Error searching for results:", error.response?.data || error.message);
+//     }
+//   };
+  
+  
 
-//     return (
-//         <div className="generate-container">
-//             <div className="card">
-//                 <h2>Generate Image</h2>
-//                 <div className="input-container">
-//                     <input
-//                         type="text"
-//                         className="prompt-input"
-//                         value={prompt}
-//                         onChange={handlePromptChange}
-//                         placeholder="Enter your prompt"
-//                     />
-//                     <button className="enter-button" onClick={handleGenerateImage}>
-//                         Generate
-//                     </button>
-//                 </div>
-//                 {error && <p className="error-message">{error}</p>}
-//                 {generatedImage && (
-//                     <div className="image-container">
-//                         <img
-//                             src={`data:image/png;base64,${generatedImage}`}
-//                             alt="Generated"
-//                             className="generated-image"
-//                         />
-//                         <button className="save-button" onClick={handleSaveImage}>
-//                             Save Image
-//                         </button>
-//                     </div>
-//                 )}
-//             </div>
+//   return (
+//     <div className="generate-container">
+//       <div className="card">
+//         <h2>Generate Your Prompt</h2>
+//         <div className="input-container">
+//           <input
+//             type="text"
+//             value={prompt}
+//             onChange={handleInputChange}
+//             className="prompt-input"
+//             placeholder="Enter your prompt here..."
+//           />
+//           <button className="enter-button" onClick={handleEnterClick}>
+//             Generate
+//           </button>
 //         </div>
-//     );
-// };
+//       </div>
 
-// export default GeneratePage;
-
-// import React, { useState } from 'react';
-// import axios from 'axios';
-// import './Generate.css';
-
-// const GeneratePage = () => {
-//     const [prompt, setPrompt] = useState('');
-//     const [generatedImage, setGeneratedImage] = useState('');
-//     const [error, setError] = useState('');
-
-//     const handlePromptChange = (e) => {
-//         setPrompt(e.target.value);
-//     };
-
-//     const handleGenerateImage = async () => {
-//         setError('');
-//         try {
-//             const response = await axios.post('http://localhost:8000/generateImage/', { prompt });
-//             setGeneratedImage(response.data.image);
-//         } catch (err) {
-//             setError('Failed to generate image. Please try again.');
-//             console.error(err);
-//         }
-//     };
-
-//     const handleSaveImage = async () => {
-//         if (!generatedImage) {
-//             setError('No image to save.');
-//             return;
-//         }
-//         try {
-//             // Send the base64 image string to the backend to save
-//             const response = await axios.post('http://localhost:8000/uploadImage/', {
-//                 image: generatedImage,
-//             }, {
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                 },
-//             });
-//             alert('Image saved successfully!');
-//         } catch (err) {
-//             setError('Failed to save image. Please try again.');
-//             console.error(err);
-//         }
-//     };
-
-//     return (
-//         <div className="generate-container">
-//             <div className="card">
-//                 <h2>Generate Image</h2>
-//                 <div className="input-container">
-//                     <input
-//                         type="text"
-//                         className="prompt-input"
-//                         value={prompt}
-//                         onChange={handlePromptChange}
-//                         placeholder="Enter your prompt"
-//                     />
-//                     <button className="enter-button" onClick={handleGenerateImage}>
-//                         Generate
-//                     </button>
-//                 </div>
-//                 {error && <p className="error-message">{error}</p>}
-                
-//                 {/* Display the generated image if it exists */}
-//                 {generatedImage && (
-//                     <div className="image-container">
-//                         <img
-//                             src={`data:image/png;base64,${generatedImage}`}
-//                             alt="Generated"
-//                             className="generated-image"
-//                         />
-//                         <button className="save-button" onClick={handleSaveImage}>
-//                             Save Image
-//                         </button>
-//                     </div>
-//                 )}
-//             </div>
+//       {generatedImage && (
+//         <div className="image-container">
+//           <img
+//             src={`data:image/png;base64,${generatedImage}`}
+//             alt="Generated"
+//             className="generated-image"
+//           />
+//           <button className="search-button" onClick={handleSearchClick}>
+//             Search for Results
+//           </button>
 //         </div>
-//     );
+//       )}
+
+//       {searchResults.length > 0 && (
+//         <div className="results-section">
+//           <h3>Search Results</h3>
+//           <div className="results-grid">
+//             {searchResults.map((result, index) => (
+//               <div key={index} className="result-item">
+//                 <img
+//                   src={result.image_url}
+//                   alt={`Result ${index + 1}`}
+//                   className="result-image"
+//                 />
+//                 <h4>{result.product_name || "No Name Available"}</h4>
+//                 <p>Brand: {result.brand || "Unknown"}</p>
+//                 <p>Price: {result.price || "N/A"}</p>
+//                 <a
+//                   href={result.product_url}
+//                   target="_blank"
+//                   rel="noopener noreferrer"
+//                 >
+//                   View Product
+//                 </a>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
 // };
 
 // export default GeneratePage;

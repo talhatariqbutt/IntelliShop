@@ -41,7 +41,7 @@ Here's the updated `README.md` file with the corrected installation instructions
 |--------------|------------------|
 | Frontend     | React            |
 | Backend      | Node.js          |
-| Database     | MySQL / MongoDB  |
+| Database     | MongoDB  |
 | APIs / Libraries | Google Vision API / TensorFlow for image recognition, Puppeteer for web scraping, NLTK / SpaCy for NLP |
 
 ---

@@ -4,6 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap');
+</style>
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
