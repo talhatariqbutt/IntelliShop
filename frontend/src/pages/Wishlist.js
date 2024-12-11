@@ -1,12 +1,12 @@
 import React from 'react';
 import WishlistPage from '../components/WishlistPage';
-import Navbar from '../components/Navbar';
+// import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const Wishlist = () => {
   return (
     <div className="wishlist-container">
-    <Navbar/>
+    {/* <Navbar/> */}
       <WishlistPage />
       <Footer/>
     </div>
