@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0;
   font-family: Poppins, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +10,136 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+} */
+
+/* Apply a warm brownish theme to the entire app */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #f4e1d2, #d1a19f); /* Light brown gradient */
+  color: #4e3629; /* Dark brown text color */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease;
+}
+
+/* Style for headings and text elements */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Bungee Tint', sans-serif; /* Use the imported font for headings */
+  color: #3a2a1f; /* Rich brown for headings */
+}
+
+/* Style the root div */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between; /* Push content to top and bottom */
+}
+
+/* Improve spacing for text */
+p, span, li {
+  line-height: 1.6;
+}
+
+/* Add a soft shadow to buttons, cards, and other clickable elements */
+button, .card, .wishlist-item {
+  background-color: #f1d0b5; /* Light brown background for buttons */
+  border: 1px solid #d2977e; /* Darker brown border */
+  color: #3a2a1f; /* Dark brown text */
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+button:hover, .card:hover, .wishlist-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Inputs and forms */
+input, textarea {
+  background-color: #f9e5d7; /* Slightly darker light brown for inputs */
+  border: 1px solid #d0a38b;
+  padding: 8px 15px;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+input:focus, textarea:focus {
+  border-color: #ab6e4c; /* Darker focus border */
+  outline: none;
+}
+
+/* Navigation bar */
+.navbar {
+  background-color: #3a2a1f; /* Dark brown background */
+  color: #f9e5d7; /* Light cream text */
+  padding: 15px;
+  font-size: 1.1rem;
+}
+
+.navbar a {
+  color: #f9e5d7; /* Light cream for links */
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+footer {
+  background-color: #3a2a1f; /* Dark brown background for footer */
+  color: #f9e5d7; /* Light cream text */
+  padding: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+footer a {
+  color: #f9e5d7;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Cards for product list / wishlist items */
+.card {
+  background-color: #f1d0b5; /* Light brown */
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+/* Animations for smoother transitions */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* For large screens */
+@media (min-width: 768px) {
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
 }
